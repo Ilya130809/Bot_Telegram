@@ -1,0 +1,48 @@
+import telebot
+bot=telebot.TeleBot('6324952727:AAFz5oIkYMCPohGYwo57Qjpx8iMrUl3QnLE')
+from telebot import types
+ 
+name=' '
+surname=' '
+age = 0
+@bot.message_handler(content_types=['text'])
+ 
+def start(message):
+     if message.text=='Викторина':
+        bot.send_message(message.from_user.id,'Первый вопрос:сколько нулей в числе гугл')
+        bot.register_next_step_handler(message, dialog1)
+     else:
+        bot.send_message(message.from_user.id,'Я тебя не понял')
+ 
+def dialog1(message):
+    global name
+    name=message.text
+    if message.text=="100":
+        bot.send_message(message.from_user.id,'Правильно')
+        bot.send_message(message.from_user.id,'Второй вопрос:Какой самый популярный бренд телефона')
+        bot.register_next_step_handler(message, dialog3)
+    else:
+        bot.send_message(message.from_user.id,'Не правильно')
+             
+def dialog3(message):
+    global name
+    name=message.text
+    if name=="Самсунг":
+        bot.send_message(message.from_user.id,'Правильно')
+        bot.send_message(message.from_user.id,'Третий вопрос:какая самая популярная игра')
+        bot.register_next_step_handler(message, dialog5)
+    else:
+        bot.send_message(message.from_user.id,'Не правильно')
+
+ 
+def dialog5(message):
+    global name
+    name=message.text
+    if name=="Майнкрафт":
+        bot.send_message(message.from_user.id,'Правильно. Вы моледец!')
+        bot.register_next_step_handler(message, dialog1)
+    else:
+        bot.send_message(message.from_user.id,'Не правильно')
+ 
+bot.polling(none_stop= True, interval =0) 
+
